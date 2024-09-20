@@ -17,6 +17,7 @@ public class App extends Application {
 
     private TextField responseText;
     private int number;
+    private int counter = 0;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -52,23 +53,28 @@ public class App extends Application {
         String userInput = responseText.getText();
         int responseNumber = Integer.parseInt(userInput);
 
+        counter ++;
+
         if (responseNumber == number) {
             Alert winAlert = new Alert(Alert.AlertType.INFORMATION);
             winAlert.setTitle("¡Has ganado!");
-            winAlert.setHeaderText("Solo has necesitado " + userInput + " intentos.");
+            winAlert.setHeaderText("Solo has necesitado " + counter + " intentos.");
             winAlert.setContentText("Vuelve a jugar y hazlo mejor");
             winAlert.showAndWait();  // Show the alert
 
             number = (int) (Math.random() * 100 + 1);
+            counter = 0;
+            responseText.clear();
 
         } else {
             Alert failAlert = new Alert(Alert.AlertType.WARNING);
             failAlert.setTitle("¡Has fallado!");
             if (number > responseNumber) {
-                failAlert.setContentText("El número es mayor que " + responseNumber + "\nVuelve a jugar y hazlo mejor.");
+                failAlert.setContentText("El número es mayor que " + responseNumber + "\n\nVuelve a jugar y hazlo mejor.");
             } else {
-                failAlert.setContentText("El número es menor que " + responseNumber + "\nVuelve a jugar y hazlo mejor.");
+                failAlert.setContentText("El número es menor que " + responseNumber + "\n\nVuelve a jugar y hazlo mejor.");
             }
+            responseText.clear();
             failAlert.setTitle("¡Has fallado!");
             failAlert.showAndWait();  // Show the alert
         }
@@ -78,6 +84,7 @@ public class App extends Application {
             errorAlert.setTitle("Entrada inválida");
             errorAlert.setContentText("El número introducido no es válido");
             errorAlert.showAndWait();  // Show the alert
+            responseText.clear();
         }
     }
 
