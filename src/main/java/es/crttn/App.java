@@ -16,6 +16,8 @@ import javafx.scene.layout.VBox;
 public class App extends Application {
 
     private TextField responseText;
+    private Label highScoreText;
+    private int highScoreCount;
     private int number;
     private int counter = 0;
 
@@ -35,11 +37,26 @@ public class App extends Application {
         checkButton.setDefaultButton(true);
         checkButton.setOnAction(this::onActionCheckButton);
 
+        highScoreText = new Label("Puntuación máxima: " + highScoreCount);
+
+        VBox firstPanel = new VBox();
+        firstPanel.setPadding(new Insets(5));
+        firstPanel.setSpacing(5);
+        firstPanel.setAlignment(Pos.CENTER);
+        firstPanel.getChildren().addAll(statementLabel, responseText, checkButton);
+
+        VBox secondPanel = new VBox();
+        secondPanel.setPadding(new Insets(5));
+        secondPanel.setSpacing(5);
+        secondPanel.setAlignment(Pos.CENTER);
+        secondPanel.getChildren().add(highScoreText);
+
         VBox root = new VBox();
         root.setPadding(new Insets(5));
         root.setSpacing(5);
         root.setAlignment(Pos.CENTER);
-        root.getChildren().addAll(statementLabel, responseText, checkButton);
+        root.getChildren().addAll(firstPanel, secondPanel);
+
 
         Scene scene = new Scene(root, 640, 480);
 
@@ -50,10 +67,10 @@ public class App extends Application {
 
     public void onActionCheckButton(ActionEvent e) {
         try {
-        String userInput = responseText.getText();
-        int responseNumber = Integer.parseInt(userInput);
+            String userInput = responseText.getText();
+            int responseNumber = Integer.parseInt(userInput);
 
-        counter ++;
+            counter ++;
 
         if (responseNumber == number) {
             Alert winAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -61,6 +78,12 @@ public class App extends Application {
             winAlert.setHeaderText("¡Has ganado!");
             winAlert.setContentText("Solo has necesitado " + counter + " intentos." + "\n\nVuelve a jugar y hazlo mejor");
             winAlert.showAndWait();  // Show the alert
+
+            if (counter < highScoreCount || highScoreCount == 0) {
+                highScoreCount = counter;
+            }
+
+            highScoreText.setText("Puntuación máxima: " + highScoreCount);
 
             number = (int) (Math.random() * 100 + 1);
             counter = 0;
