@@ -15,28 +15,24 @@ import javafx.scene.layout.VBox;
 
 public class App extends Application {
 
+    private TextField responseText;
+    private int number;
+
     @Override
     public void start(Stage stage) throws Exception {
+
+        number = (int) (Math.random() * 100 + 1);
 
         Label statementLabel = new Label();
         statementLabel.setText("Introduce el número de 1 al 100");
 
-        TextField responseText = new TextField();
+        responseText = new TextField();
         responseText.setMaxWidth(100);
-
-        Alert winAlert = new Alert(Alert.AlertType.INFORMATION);
-        winAlert.setTitle("¡Has ganado!");
 
         Button checkButton = new Button();
         checkButton.setText("Comprobar");
         checkButton.setDefaultButton(true);
-        checkButton.setOnAction(e -> {
-            String userInput = responseText.getText();
-            winAlert.setHeaderText("Solo has necesitado " + userInput + " intentos.");
-            winAlert.setContentText("Vuelve a jugar y hazlo mejor");
-            winAlert.showAndWait();  // Show the alert
-        });
-        //checkButton.setOnAction(this::onActionCheckButton);
+        checkButton.setOnAction(this::onActionCheckButton);
 
         VBox root = new VBox();
         root.setPadding(new Insets(5));
@@ -52,6 +48,38 @@ public class App extends Application {
     }
 
     public void onActionCheckButton(ActionEvent e) {
+        try {
+        String userInput = responseText.getText();
+        int responseNumber = Integer.parseInt(userInput);
 
+        if (responseNumber == number) {
+            Alert winAlert = new Alert(Alert.AlertType.INFORMATION);
+            winAlert.setTitle("¡Has ganado!");
+            winAlert.setHeaderText("Solo has necesitado " + userInput + " intentos.");
+            winAlert.setContentText("Vuelve a jugar y hazlo mejor");
+            winAlert.showAndWait();  // Show the alert
+
+            number = (int) (Math.random() * 100 + 1);
+
+        } else {
+            Alert failAlert = new Alert(Alert.AlertType.WARNING);
+            failAlert.setTitle("¡Has fallado!");
+            if (number > responseNumber) {
+                failAlert.setContentText("El número es mayor que " + responseNumber + "\nVuelve a jugar y hazlo mejor.");
+            } else {
+                failAlert.setContentText("El número es menor que " + responseNumber + "\nVuelve a jugar y hazlo mejor.");
+            }
+            failAlert.setTitle("¡Has fallado!");
+            failAlert.showAndWait();  // Show the alert
+        }
+
+    } catch (NumberFormatException ex) {
+            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+            errorAlert.setTitle("Entrada inválida");
+            errorAlert.setContentText("El número introducido no es válido");
+            errorAlert.showAndWait();  // Show the alert
+        }
     }
+
 }
+
