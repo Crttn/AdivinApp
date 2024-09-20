@@ -57,9 +57,9 @@ public class App extends Application {
 
         if (responseNumber == number) {
             Alert winAlert = new Alert(Alert.AlertType.INFORMATION);
-            winAlert.setTitle("¡Has ganado!");
-            winAlert.setHeaderText("Solo has necesitado " + counter + " intentos.");
-            winAlert.setContentText("Vuelve a jugar y hazlo mejor");
+            winAlert.setTitle("AdivinApp");
+            winAlert.setHeaderText("¡Has ganado!");
+            winAlert.setContentText("Solo has necesitado " + counter + " intentos." + "\n\nVuelve a jugar y hazlo mejor");
             winAlert.showAndWait();  // Show the alert
 
             number = (int) (Math.random() * 100 + 1);
@@ -68,22 +68,23 @@ public class App extends Application {
 
         } else {
             Alert failAlert = new Alert(Alert.AlertType.WARNING);
-            failAlert.setTitle("¡Has fallado!");
+            failAlert.setTitle("AdivinApp");
+            failAlert.setHeaderText("¡Has fallado!");
             if (number > responseNumber) {
                 failAlert.setContentText("El número es mayor que " + responseNumber + "\n\nVuelve a jugar y hazlo mejor.");
             } else {
                 failAlert.setContentText("El número es menor que " + responseNumber + "\n\nVuelve a jugar y hazlo mejor.");
             }
+            failAlert.showAndWait();
             responseText.clear();
-            failAlert.setTitle("¡Has fallado!");
-            failAlert.showAndWait();  // Show the alert
         }
 
     } catch (NumberFormatException ex) {
             Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-            errorAlert.setTitle("Entrada inválida");
+            errorAlert.setTitle("AdivinApp");
+            errorAlert.setHeaderText("Entrada inválida");
             errorAlert.setContentText("El número introducido no es válido");
-            errorAlert.showAndWait();  // Show the alert
+            errorAlert.showAndWait();
             responseText.clear();
         }
     }
